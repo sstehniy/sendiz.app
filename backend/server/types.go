@@ -1,4 +1,4 @@
-package main
+package server
 
 type User struct {
 	ID         int64  `json:"id"`
@@ -7,6 +7,12 @@ type User struct {
 	Status     string `json:"status"`
 	Phone      string `json:"phone"`
 	AvatarLink string `json:"avatarLink"`
+}
+
+type UserVerification struct {
+	ID     int64  `json:"id"`
+	Phone  string `json:"phone"`
+	Status string `json:"status"`
 }
 
 type ChatMember struct {

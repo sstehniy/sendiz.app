@@ -1,7 +1,13 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/joho/godotenv"
+	"github.com/sstehniy/sendiz.app/pkg/api"
+)
 
 func main() {
-	router := gin.Default()
+	godotenv.Load()
+	db := configureDB()
+	api.SetupApi(db)
+
 }
