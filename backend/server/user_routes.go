@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/sstehniy/sendiz.app/server"
 	"github.com/twilio/twilio-go"
 	verify "github.com/twilio/twilio-go/rest/verify/v2"
 )
@@ -58,7 +57,7 @@ func sendOTP(c *gin.Context, db *sql.DB) {
 		}
 	}
 
-	userVerification := server.UserVerification{}
+	userVerification := UserVerification{}
 	userVerification.Phone = phone
 	userVerification.Status = *status
 

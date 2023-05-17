@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupApi(db *sql.DB) {
+func setupApi(db *sql.DB) {
 	router := gin.Default()
 
 	config := cors.DefaultConfig()
@@ -15,5 +15,5 @@ func SetupApi(db *sql.DB) {
 	router.Use(cors.New(config))
 
 	v1 := router.Group("/api/v1")
-	addUserRoutes(v1)
+	addUserRoutes(v1, db)
 }

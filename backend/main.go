@@ -2,12 +2,11 @@ package main
 
 import (
 	"github.com/joho/godotenv"
-	"github.com/sstehniy/sendiz.app/pkg/api"
+	"github.com/sstehniy/sendiz.app/server"
 )
 
 func main() {
 	godotenv.Load()
 	db := configureDB()
-	api.SetupApi(db)
-
+	server.StartServer(db)
 }
