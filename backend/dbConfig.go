@@ -4,12 +4,14 @@ import (
 	"database/sql"
 	"log"
 	"os"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func configureDB() *sql.DB {
 	db := connectToDB()
 
-	deleteTables(db)
+	// deleteTables(db)
 	setupTables(db)
 
 	return db
@@ -49,19 +51,30 @@ func deleteTables(db *sql.DB) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	_, err = db.Exec(`DROP TABLE IF EXISTS UserInitiate`)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = db.Exec(`DROP TABLE IF EXISTS UserVerification`)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
 
 func setupTables(db *sql.DB) {
+
 	_, err := db.Exec(`
-		CREATE TABLE IF NOT EXISTS User (
-			ID INT PRIMARY KEY AUTO_INCREMENT,
-			FullName VARCHAR(255) NOT NULL,
-			Handle VARCHAR(100) NOT NULL UNIQUE,
-			Status VARCHAR(10),
-			Phone VARCHAR(15) NOT NULL UNIQUE,
-			AvatarLink TEXT DEFAULT NULL
-	);
-	`)
+	CREATE TABLE IF NOT EXISTS User (
+		ID INT PRIMARY KEY AUTO_INCREMENT,
+		FullName VARCHAR(255) NOT NULL,
+		Handle VARCHAR(100) NOT NULL UNIQUE,
+		Phone VARCHAR(15) NOT NULL UNIQUE,
+		AvatarLink TEXT DEFAULT NULL
+);
+`)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -82,7 +95,7 @@ func setupTables(db *sql.DB) {
 			ID INT PRIMARY KEY AUTO_INCREMENT,
 			ChatID INT NOT NULL,
 			UserID INT NOT NULL,
-			Role VARCHAR(10) DEFAULT 'member',
+			Role VARCHAR(10) NOT NULL
 		)`)
 	if err != nil {
 		log.Fatal(err)
@@ -93,7 +106,7 @@ func setupTables(db *sql.DB) {
 			ID INT PRIMARY KEY AUTO_INCREMENT,
 			ChatID INT NOT NULL,
 			UserID INT NOT NULL,
-			TextContent VARCHAR(MAX) DEFAULT NULL,
+			TextContent VARCHAR(10000) DEFAULT NULL,
 			Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
 			WasEdited BOOLEAN DEFAULT FALSE,
 			ReplyToId INT DEFAULT NULL
@@ -108,7 +121,28 @@ func setupTables(db *sql.DB) {
 			ID INT PRIMARY KEY AUTO_INCREMENT,
 			MessageID INT NOT NULL,
 			Type VARCHAR(10) NOT NULL,
-			Link VARCHAR(MAX) NOT NULL
+			Link VARCHAR(10000) NOT NULL
+		)`)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS UserVerification (
+			ID INT PRIMARY KEY AUTO_INCREMENT,
+			Code VARCHAR(6) NOT NULL,
+			Phone VARCHAR(15) NOT NULL,
+			Status VARCHAR(10) NOT NULL,
+			Created DATETIME DEFAULT CURRENT_TIMESTAMP
+		)`)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS UserInitiate (
+			ID INT PRIMARY KEY AUTO_INCREMENT,
+			Phone VARCHAR(15) NOT NULL
 		)`)
 	if err != nil {
 		log.Fatal(err)

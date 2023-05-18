@@ -4,15 +4,25 @@ type User struct {
 	ID         int64  `json:"id"`
 	FullName   string `json:"fullName"`
 	Handle     string `json:"handle"`
-	Status     string `json:"status"`
 	Phone      string `json:"phone"`
 	AvatarLink string `json:"avatarLink"`
 }
 
+type UserInitiate struct {
+	ID    int64  `json:"id"`
+	Phone string `json:"phone"`
+}
+
 type UserVerification struct {
-	ID     int64  `json:"id"`
-	Phone  string `json:"phone"`
-	Status string `json:"status"`
+	ID      int64  `json:"id"`
+	Phone   string `json:"phone"`
+	Status  string `json:"status"`
+	Created string `json:"created"`
+}
+
+type UserVerificationClient struct {
+	ID   int64  `json:"id"`
+	Code string `json:"code"`
 }
 
 type ChatMember struct {

@@ -13,8 +13,8 @@ COPY . /app
 # Copy the .air.toml configuration file into the container
 COPY .air.toml /app/.air.toml
 
-# Expose the port that the application is running on
+# Expose the port that the application is running on and db port
 EXPOSE 8080
-
+EXPOSE 3306
 # Start Air
 CMD ["air"]
