@@ -10,5 +10,6 @@ func setupApi(router *gin.Engine, db *sql.DB) {
 
 	v1 := router.Group("/api/v1")
 	addUserRoutes(v1, db)
-
+	addMessageRoutes(v1, db)
+	addChatRoutes(v1, db)
 }

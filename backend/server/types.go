@@ -1,5 +1,7 @@
 package server
 
+import "github.com/gorilla/websocket"
+
 type User struct {
 	ID         int64  `json:"id"`
 	FullName   string `json:"fullName"`
@@ -55,4 +57,18 @@ type Message struct {
 	Timestamp    string        `json:"timestamp"`
 	WasEdited    bool          `json:"wasEdited"`
 	ReplyToId    int64         `json:"replyTo"`
+}
+
+type Client struct {
+	id     int64
+	socket *websocket.Conn
+	send   chan []byte
+}
+
+type Hub struct {
+	id         int64
+	broadcast  chan []byte
+	register   chan *Client
+	unregister chan *Client
+	clients    map[*Client]bool
 }
