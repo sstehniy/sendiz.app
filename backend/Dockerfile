@@ -1,20 +1,14 @@
-# Set the base image to the official Go image
 FROM golang:latest
 
-# Set the working directory
+ENV PROJECT_DIR=/app \
+  GO111MODULE=on \
+  CGO_ENABLED=0
+
 WORKDIR /app
-
-# Install Air
-RUN go install github.com/cosmtrek/air@latest
-
-# Copy the source code into the container
-COPY . /app
-
-# Copy the .air.toml configuration file into the container
-COPY .air.toml /app/.air.toml
-
-# Expose the port that the application is running on and db port
+RUN mkdir "/build"
+COPY . .
 EXPOSE 8080
-EXPOSE 3306
-# Start Air
-CMD ["air"]
+EXPOSE 3036
+RUN go get github.com/githubnemo/CompileDaemon
+RUN go install github.com/githubnemo/CompileDaemon
+ENTRYPOINT CompileDaemon -build="go build -o /build/app" -command="/build/app"

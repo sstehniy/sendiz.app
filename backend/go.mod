@@ -9,7 +9,7 @@ require (
 	github.com/twilio/twilio-go v1.7.1
 )
 
-require github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+require github.com/dgrijalva/jwt-go v3.2.0+incompatible
 
 require (
 	github.com/bytedance/sonic v1.8.8 // indirect

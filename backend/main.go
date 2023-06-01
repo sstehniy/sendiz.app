@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/joho/godotenv"
 	"github.com/sstehniy/sendiz.app/server"
 )
@@ -15,4 +17,5 @@ func main() {
 	db := configureDB()
 	defer db.Close()
 	server.StartServer(db)
+	fmt.Println("Server started")
 }

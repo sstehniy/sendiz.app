@@ -11,8 +11,13 @@ import (
 func configureDB() *sql.DB {
 	db := connectToDB()
 
-	// deleteTables(db)
+	deleteTables(db)
 	setupTables(db)
+	query := `INSERT INTO User (FullName, Handle, Phone) VALUES ('Sergey Stehniy', 'sstehniy', '+380631234567')`
+	_, err := db.Exec(query)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return db
 }
